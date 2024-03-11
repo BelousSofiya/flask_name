@@ -29,8 +29,8 @@ SECRET_KEY = 'xfghtdy768oj@#$fgh%$^'  # TODO: take from env
 # MAIL_SERVER = 'smtp.gmail.com'
 # MAIL_PORT = 465
 # MAIL_USE_SSL = True
-# MAIL_USERNAME = "egiksonya@gmail.com"
-# MAIL_PASSWORD = "sonya1985"
+# MAIL_USERNAME = ""
+# MAIL_PASSWORD = ""
 
 
 # mail = Mail()
@@ -39,8 +39,8 @@ app = Flask(__name__)
 # app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 # app.config['MAIL_PORT'] = 465
 # app.config['MAIL_USE_SSL'] = True
-# app.config['MAIL_USERNAME'] = "egiksonya@gmail.com"
-# app.config['MAIL_PASSWORD'] = "sonya1985"
+# app.config['MAIL_USERNAME'] = ""
+# app.config['MAIL_PASSWORD'] = ""
 
 app.config["JWT_SECRET_KEY"] = "hubahuba"  # TODO: take from env
 app.config["JWT_COOKIE_SECURE"] = False

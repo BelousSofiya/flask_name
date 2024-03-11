@@ -28,14 +28,8 @@ class DataBaseClass:  # TODO: "Class" is extra
         return user_dict
 
 
-    def create_user(self, data):
+    def create_user_in_db(self, data):
         user_id = str(uuid4())
-        try:
-            if not validate_email(data['email']) or not validate_password(data['password']):
-                return {"message": 'Wrong password or email'}, 404  # TODO: 400
-        except KeyError: # validate_data_includes_email_password
-            return {"message": 'Wrong data'}, 404  # TODO: 400
-
         with self.conn.cursor() as cur:
             cur.execute(f"""SELECT * FROM users WHERE email = '{data['email']}'""")
             if cur.fetchall():
@@ -44,7 +38,7 @@ class DataBaseClass:  # TODO: "Class" is extra
             cur.execute(f"""INSERT INTO users
                     ("id", "email", "full_name", "password", "admin")
                     VALUES('{user_id}', '{data['email']}', '{data['full_name']}', '{generate_password_hash(data['password'])}', {False})""")
-            cur.execute(f"""SELECT * FROM users WHERE id = '{user_id}'""")
+            user = cur.execute(f"""SELECT * FROM users WHERE id = '{user_id}'""")
             self.conn.commit()
             user = self.zip_lists_for_user_dict(cur.fetchall()[0])
             return user

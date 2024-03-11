@@ -93,7 +93,7 @@ def admin_hello():
 @auth_bp.route('/register', methods=['POST'])
 def create_user_profile():
     data = request.get_json()
-    response = db.create_user(data)
+    response = create_user(data)
     return response
 
 
