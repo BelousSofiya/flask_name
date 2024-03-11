@@ -5,5 +5,12 @@ def validate_email(email):
 def validate_password(password):
     return len(password) >= 8
 
+
 def validate_data_includes_email_password(data):
-    pass
+    try:
+        data['email']
+        data['password']
+    except KeyError:
+        return False
+    return True
+    # return True if (data['email'] and data['password']) else False

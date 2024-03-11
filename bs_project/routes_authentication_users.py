@@ -11,28 +11,30 @@ from functools import wraps
 from flask_jwt_extended import get_jwt
 from datetime import timedelta
 import os
-from business_logic import *
+from business_logic import BL
 from db_requests import *
 
 
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
-def connect_db():
-    if os.getenv('TESTING').strip() == 'True':
-        return DataBaseClass(database="testing_db", host="localhost", user="postgres", password="postgres", port="5432")
-    else:
-        return DataBaseClass(database="flask_bs_db", host="localhost", user="postgres", password="postgres", port="5432")
 
+# def connect_db():
+#     if os.getenv('TESTING').strip() == 'True':
+#         return DataBaseClass(database="testing_db", host="localhost", user="postgres", password="postgres", port="5432")
+#     else:
+#         return DataBaseClass(database="flask_bs_db", host="localhost", user="postgres", password="postgres", port="5432")
 
-db = connect_db()
-db.initial_connect_with_db()
+blclass = BL()
+
+# db = connect_db()
+# db.initial_connect_with_db()
 
 
 # TODO: routs -> separated file (Flask Blueprint)
 @auth_bp.route("/login", methods=["POST"])
 def login():  # TODO: return 200 tokens | 404 {"message": "user not found"}
     data = request.get_json()
-    user = db.get_user_by_email_password(data)
+    user = blclass.get_user_by_email_password(data)
     if user and len(user) > 2:
         additional_claims = {"is_admin": user['admin']}
         access_token = create_access_token(identity=data['email'], additional_claims=additional_claims,
@@ -93,20 +95,20 @@ def admin_hello():
 @auth_bp.route('/register', methods=['POST'])
 def create_user_profile():
     data = request.get_json()
-    response = create_user(data)
+    response = blclass.create_user(data)
     return response
 
 
 @auth_bp.route('/user/<userid>', methods=['GET', 'DELETE'])
 def show_delete_user_profile(userid):  # TODO: get_delete
     if request.method == 'DELETE':
-        response = db.delete_user_by_id(userid)
+        response = blclass.delete_user_by_id(userid)
         return response
-    user = db.get_user_by_id(userid)
+    user = blclass.get_user_by_id(userid)
     return user
 
 
 @auth_bp.route('/user/')
 def show_all_user_profiles():  # TODO: get
-    users = db.get_all_users()
+    users = blclass.get_all_users()
     return users
