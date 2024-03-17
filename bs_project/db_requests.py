@@ -54,14 +54,3 @@ class DataBase:  # TODO: "Class" is extra +
         with self.conn.cursor() as cur:
             cur.execute(f"""DELETE FROM users WHERE id = '{user_id}'""")
             self.conn.commit()
-
-    # def reset_password_in_db(self, email, password):
-    #     with self.conn.cursor() as cur:
-    #         cur.execute(f"""SELECT * FROM users WHERE email = '{email}'""")
-    #         user = cur.fetchall()
-    #         if user:
-    #             cur.execute(f"""UPDATE users SET password = '{generate_password_hash(password)}' WHERE email = '{email}'""")
-    #             self.conn.commit()
-    #             return {"message": 'Reset password'}
-    #         else:
-    #             return {"message": 'User is not found '}

@@ -58,17 +58,6 @@ class BL:
         return users # TODO: map with format_user +
 
 
-    # def reset_password_in_db(self, email, password):
-    #     with self.conn.cursor() as cur:
-    #         cur.execute(f"""SELECT * FROM users WHERE email = '{email}'""")
-    #         user = cur.fetchall()
-    #         if user:
-    #             cur.execute(f"""UPDATE users SET password = '{generate_password_hash(password)}' WHERE email = '{email}'""")
-    #             self.conn.commit()
-    #             return {"message": 'Reset password'}
-    #         else:
-    #             return {"message": 'User is not found '}
-
     def delete_user_by_id(self, user_id):
         user = db.get_user_by_id_in_db(user_id)
         if user:
