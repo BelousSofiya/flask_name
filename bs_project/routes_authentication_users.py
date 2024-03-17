@@ -1,4 +1,3 @@
-#blueprints
 from flask import Flask, request, jsonify, Blueprint
 
 from flask_jwt_extended import create_access_token
@@ -10,24 +9,11 @@ from flask_jwt_extended import verify_jwt_in_request
 from functools import wraps
 from flask_jwt_extended import get_jwt
 from datetime import timedelta
-import os
 from business_logic import BL
-from db_requests import *
-
 
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
-
-# def connect_db():
-#     if os.getenv('TESTING').strip() == 'True':
-#         return DataBaseClass(database="testing_db", host="localhost", user="postgres", password="postgres", port="5432")
-#     else:
-#         return DataBaseClass(database="flask_bs_db", host="localhost", user="postgres", password="postgres", port="5432")
-
 blclass = BL()
-
-# db = connect_db()
-# db.initial_connect_with_db()
 
 
 # TODO: routs -> separated file (Flask Blueprint) +

@@ -80,7 +80,7 @@ class TestCase(unittest.TestCase):
     def test_get_user_by_id_not_exist(self):
         response = self.app.get('auth/user/f26d75e4-3bb7-41c0-8e87-87aea01b').json
         # self.assertEqual(response, [])
-        self.assertEqual(response, [])
+        self.assertEqual(response, {"message": 'User is not found'})
 
 
     def test_create_user(self):
