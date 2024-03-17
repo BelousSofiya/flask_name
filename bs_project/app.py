@@ -12,6 +12,7 @@ from flask_jwt_extended import JWTManager
 from flask_jwt_extended import verify_jwt_in_request
 # from flask_jwt_extended import verify_jwt_refresh_token_in_request
 from routes_authentication_users import auth_bp
+from config import Config
 
 from functools import wraps
 # from flask_jwt_extended import set_access_cookies
@@ -24,8 +25,8 @@ from datetime import timedelta
 
 
 #config
-DEBUG = True
-SECRET_KEY = 'xfghtdy768oj@#$fgh%$^'  # TODO: take from env
+# DEBUG = True
+# SECRET_KEY = 'xfghtdy768oj@#$fgh%$^'  # TODO: take from env
 # MAIL_SERVER = 'smtp.gmail.com'
 # MAIL_PORT = 465
 # MAIL_USE_SSL = True
@@ -42,11 +43,12 @@ app = Flask(__name__)
 # app.config['MAIL_USERNAME'] = ""
 # app.config['MAIL_PASSWORD'] = ""
 
-app.config["JWT_SECRET_KEY"] = "hubahuba"  # TODO: take from env
-app.config["JWT_COOKIE_SECURE"] = False
-app.config["JWT_TOKEN_LOCATION"] = ["headers"]
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+# app.config["JWT_SECRET_KEY"] = "hubahuba"  # TODO: take from env +
+# app.config["JWT_COOKIE_SECURE"] = False
+# app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 # mail = Mail(app)
+app.config.from_object(Config)
 
 jwt = JWTManager(app)
 

@@ -19,7 +19,7 @@ db.initial_connect_with_db()
 
 class BL:
 
-    def zip_lists_for_user_dict(self, user_list):  # TODO: format_user_record(db_record) -> UserRecord:
+    def format_user_record(self, user_list):  # TODO: format_user_record(db_record) -> UserRecord: +
         user_fields = ["id", "email", "full_name", "password", "admin"]
         user_dict = dict(zip(user_fields, user_list))
         user_dict.pop("password")
@@ -30,19 +30,21 @@ class BL:
             return {"message": 'Wrong data'}, 404
         else:
             if not validate_email(data['email']) or not validate_password(data['password']):
-                return {"message": 'Wrong password or email'}, 404  # TODO: 400
+                return {"message": 'Wrong password or email'}, 400  # TODO: 400 +
         user_in_db = db.get_user_by_email(data['email'])
         if user_in_db:
             return {"message": 'User already exists!'}, 403
         user_data = db.create_user_in_db(data)
-        user = self.zip_lists_for_user_dict(user_data)
+        user = self.format_user_record(user_data)
         return user
 
 
     def get_user_by_id(self, user_id):  # TODO: return user | None
         #     user = cur.fetchall()  # TODO: fetchone()
         user = db.get_user_by_id_in_db(user_id)
-        return self.zip_lists_for_user_dict(user[0]) if user else user
+        return self.format_user_record(user[0]) if user else user
+        # return self.format_user_record(user[0]) if user else None =>  The function either returned None or ended without a return statement.
+
 
 
     def get_user_by_email_password(self, data):
@@ -52,18 +54,18 @@ class BL:
         password = data['password']
         user = db.get_user_by_email(email)
         if user and check_password_hash(user[0][3], password):
-            return self.zip_lists_for_user_dict(user[0])
+            return self.format_user_record(user[0])
         else:
             return {"message": "Email or password is wrong"}, 404
 
     def get_all_users(self):
         raw_users = db.get_all_users_in_db()
-        users = [self.zip_lists_for_user_dict(user) for user in raw_users]
+        users = [self.format_user_record(user) for user in raw_users]
         return users
         # with self.conn.cursor() as cur:
         #     cur.execute(f"""SELECT * FROM users""")
         #     users = cur.fetchall()
-        #     return users  # TODO: map with format_user
+        #     return users  # TODO: map with format_user +
 
 
     # def reset_password_in_db(self, email, password):

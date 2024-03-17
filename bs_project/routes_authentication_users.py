@@ -30,7 +30,7 @@ blclass = BL()
 # db.initial_connect_with_db()
 
 
-# TODO: routs -> separated file (Flask Blueprint)
+# TODO: routs -> separated file (Flask Blueprint) +
 @auth_bp.route("/login", methods=["POST"])
 def login():  # TODO: return 200 tokens | 404 {"message": "user not found"}
     data = request.get_json()
@@ -100,7 +100,7 @@ def create_user_profile():
 
 
 @auth_bp.route('/user/<userid>', methods=['GET', 'DELETE'])
-def show_delete_user_profile(userid):  # TODO: get_delete
+def get_delete_user_profile(userid):  # TODO: get_delete +
     if request.method == 'DELETE':
         response = blclass.delete_user_by_id(userid)
         return response
@@ -109,6 +109,6 @@ def show_delete_user_profile(userid):  # TODO: get_delete
 
 
 @auth_bp.route('/user/')
-def show_all_user_profiles():  # TODO: get
+def get_all_user_profiles():  # TODO: get +
     users = blclass.get_all_users()
     return users
